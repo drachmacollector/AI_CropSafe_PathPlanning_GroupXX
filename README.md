@@ -26,10 +26,32 @@ python main.py --no-gif   # skip the animation (a bit faster)
 python -m unittest discover tests   # run the tests
 ```
 
+### Live demo (for the presentation)
+
+```bash
+python demo.py              # step-by-step demo in one window
+python demo.py --stage 5    # jump straight to a stage (1-6)
+```
+
+The demo walks through the assignment one task at a time:
+
+| Stage | Shows |
+|---|---|
+| 1 | The field: potato rows, protected regions, known and hidden obstacles |
+| 2 | Problem formulation, with allowed / blocked moves drawn on the map |
+| 3 | A live race: BFS, DFS, Greedy and A* expanding cells side by side |
+| 4 | Shortest A* vs crop-safe A*, with the penalty written in every cell |
+| 5 | The robot driving, detecting hidden obstacles and replanning with A*. **Click any free cell to drop a new obstacle** and the robot has to find it and replan. |
+| 6 | The comparison tables (including the live run from stage 5) |
+
+Controls: `->` / `<-` next / previous stage, `r` replay, `p` pause,
+`+` / `-` speed, `q` quit. The on-screen buttons do the same.
+
 ## Project structure
 
 ```
 main.py                    runs all tasks in order and saves the outputs
+demo.py                    interactive step-by-step demo for presenting
 cropsafe/
   field.py                 Task 1 - field grid, cell types, map layout
   problem.py               Task 2 - states, actions, transition, goal test, path cost
@@ -225,7 +247,7 @@ the part listed below and should be able to explain the overall approach.
 | Member | Roll number | Responsibility | Main files |
 |---|---|---|---|
 | Nakul Bhadade | BT24CSA047 | Field environment design, problem formulation, field visualisation (Tasks 1, 2) | `field.py`, `problem.py`, `draw_field` in `visualize.py` |
-| Siddhi Dhooke | BT25CSA050 | BFS and DFS implementation, performance comparison tables and testing (Tasks 3, 6) | `uninformed.py`, `search_result.py`, `evaluation.py`, `tests/` |
+| Siddhi Dhooke | BT24CSA050 | BFS and DFS implementation, performance comparison tables and testing (Tasks 3, 6) | `uninformed.py`, `search_result.py`, `evaluation.py`, `tests/` |
 | Pranjal Baghel | BT24CSA052 | Greedy Best-First Search and heuristic design / admissibility (Task 3) | `informed.py` (greedy, `manhattan`) |
 | Ness Dubey | BT24CSA053 | A* implementation and crop-safe path cost (Tasks 3, 4) | `informed.py` (A*), `crop_safety.py` |
 | Lakshuki Hatwar | BT24CSA063 | Obstacle detection simulation, map update and replanning, replanning animation (Task 5) | `replanning.py`, replanning plots in `visualize.py` |
