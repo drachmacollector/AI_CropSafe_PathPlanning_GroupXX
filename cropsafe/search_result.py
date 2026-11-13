@@ -11,6 +11,8 @@ class SearchResult:
     nodes_expanded: int = 0         # how many states were taken off the frontier
     time_ms: float = 0.0
     path_cost: float = None         # cost under the problem's step costs
+    safety_cost: float = None       # crop-safe cost (filled in by evaluation.py)
+    near_crop_cells: int = None     # path cells close to a protected region
     explored: list = field(default_factory=list)  # expansion order (for plots)
 
     @property
