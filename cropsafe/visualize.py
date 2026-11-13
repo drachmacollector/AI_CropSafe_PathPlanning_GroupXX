@@ -308,22 +308,37 @@ def animate_replanning(field, online, out_path, fps=4):
     plt.close(fig)
 
 
-def plot_comparison_table(headers, rows, out_path, title):
-    """Task 6: render the comparison table as an image."""
-    # column width follows the longest text in that column
-    widths = [max(len(h), *(len(row[i]) for row in rows)) + 3 for i, h in enumerate(headers)]
-    fig, ax = plt.subplots(figsize=(0.11 * sum(widths), 0.4 * (len(rows) + 1)))
+def _column_widths(headers, rows):
+    """Column width follows the longest text in that column."""
+    return [max(len(h), *(len(row[i]) for row in rows)) + 3 for i, h in enumerate(headers)]
+
+
+def draw_table(ax, headers, rows, title=None, fontsize=10, highlight_row=None):
+    """Draw a styled table that fills `ax`."""
+    widths = _column_widths(headers, rows)
     ax.axis("off")
     table = ax.table(cellText=rows, colLabels=headers, cellLoc="center", bbox=[0, 0, 1, 1],
                      colWidths=[w / sum(widths) for w in widths])
     table.auto_set_font_size(False)
-    table.set_fontsize(10)
+    table.set_fontsize(fontsize)
     for (r, _c), cell in table.get_celld().items():
         cell.set_edgecolor("#d9d6cf")
         if r == 0:
             cell.set_facecolor("#2b2b2b")
             cell.set_text_props(color="white", fontweight="bold")
+        elif highlight_row is not None and r == highlight_row + 1:
+            cell.set_facecolor("#e4e0f7")
+            cell.set_text_props(fontweight="bold")
         elif r % 2 == 0:
             cell.set_facecolor("#f6f4ef")
-    ax.set_title(title, fontsize=12, fontweight="bold", color=TEXT, loc="left")
+    if title:
+        ax.set_title(title, fontsize=12, fontweight="bold", color=TEXT, loc="left")
+    return table
+
+
+def plot_comparison_table(headers, rows, out_path, title):
+    """Task 6: render the comparison table as an image."""
+    widths = _column_widths(headers, rows)
+    fig, ax = plt.subplots(figsize=(0.11 * sum(widths), 0.4 * (len(rows) + 1)))
+    draw_table(ax, headers, rows, title)
     return _save(fig, out_path)
