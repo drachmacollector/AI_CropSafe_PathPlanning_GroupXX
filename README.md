@@ -247,7 +247,7 @@ the part listed below and should be able to explain the overall approach.
 | Member | Roll number | Responsibility | Main files |
 |---|---|---|---|
 | Nakul Bhadade | BT24CSA047 | Field environment design, problem formulation, field visualisation (Tasks 1, 2) | `field.py`, `problem.py`, `draw_field` in `visualize.py` |
-| Siddhi Dhooke | BT24CSA050 | BFS and DFS implementation, performance comparison tables and testing (Tasks 3, 6) | `uninformed.py`, `search_result.py`, `evaluation.py`, `tests/` |
+| Siddhi Dhoke | BT24CSA050 | BFS and DFS implementation, performance comparison tables and testing (Tasks 3, 6) | `uninformed.py`, `search_result.py`, `evaluation.py`, `tests/` |
 | Pranjal Baghel | BT24CSA052 | Greedy Best-First Search and heuristic design / admissibility (Task 3) | `informed.py` (greedy, `manhattan`) |
 | Ness Dubey | BT24CSA053 | A* implementation and crop-safe path cost (Tasks 3, 4) | `informed.py` (A*), `crop_safety.py` |
 | Lakshuki Hatwar | BT24CSA063 | Obstacle detection simulation, map update and replanning, replanning animation (Task 5) | `replanning.py`, replanning plots in `visualize.py` |
