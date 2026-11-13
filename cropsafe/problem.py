@@ -9,9 +9,12 @@ Task 2 - Problem formulation.
                    or a known obstacle.
   Transition     : result((r, c), action) = (r + dr, c + dc).
   Goal test      : state == destination cell 'G'.
-  Path cost      : sum of step costs. Each move costs 1.
+  Path cost      : sum of step costs. Each move costs 1. With crop_safe=True
+                   a move into a cell near a crop-protection region costs
+                   extra (see crop_safety.py), so safer routes are cheaper.
 """
 
+from .crop_safety import proximity_penalty_map
 from .field import Field
 
 # action name -> (row change, col change)
@@ -26,13 +29,15 @@ ACTIONS = {
 class PathProblem:
     """Search problem: drive from `start` to the field's goal on a given map."""
 
-    def __init__(self, field: Field, grid=None, start=None):
+    def __init__(self, field: Field, grid=None, start=None, crop_safe=True):
         self.field = field
         # The map the robot believes in. By default it is the robot's known map
         # (hidden obstacles are invisible). Replanning passes an updated map.
         self.grid = field.known_grid() if grid is None else grid
         self.initial = field.start if start is None else start
         self.goal = field.goal
+        self.crop_safe = crop_safe
+        self.penalty = proximity_penalty_map(self.grid)
 
     def actions(self, state):
         """Moves that keep the robot inside the field and on safe soil."""
@@ -51,6 +56,8 @@ class PathProblem:
         return state == self.goal
 
     def step_cost(self, state, action, next_state):
+        if self.crop_safe:
+            return 1 + float(self.penalty[next_state])
         return 1
 
     def neighbours(self, state):
